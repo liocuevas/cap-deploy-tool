@@ -1,4 +1,4 @@
-Deploy
+Cap Deploy Tool
 ======
 Deploy applications with caphub, capistrano and webhooks
 

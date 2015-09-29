@@ -1,0 +1,16 @@
+staging:
+  host: localhost
+  database: db_name
+  username: db_user
+  password: 'root'
+production:
+  host: localhost
+  database: db_name
+  username: db_user
+  password: 'root'
+local:
+  host: localhost
+  database: db_name
+  username: db_user
+  password: 'root'
+

@@ -1,0 +1,11 @@
+{
+    "port" : 8080,
+    "repositories" : {
+        "[repository name]" : {
+            "name":"[my super cool name]",
+            "basepath" : "[path to where the command will run]",
+            "command" : "[the command to run]",
+            "branch" : "[what branch to react to]"
+        }
+    }
+}

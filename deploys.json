@@ -1,0 +1,12 @@
+{  
+   "deploys":[  
+      {  
+         "name":"Example Environment",
+         "type":"github",
+         "repo":"https://github.com/liocuevas/repo.git",
+         "basepath":"/path/to/cap-deploy-tool/deploy/cdt",
+         "command":"bundle exec cap repo:environment deploy",
+         "branch":"development"
+      }
+   ]
+}

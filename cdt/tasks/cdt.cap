@@ -1,0 +1,129 @@
+# vim syntax=ruby
+namespace :cdt do
+
+    desc "Creates robots.txt to disable site crawling"
+    task :create_robots do
+        on roles(:all) do
+            io = StringIO.new('User-agent: *
+                               Disallow: /')
+            droot = fetch(:document_root)
+            
+            if (droot.nil? || droot.empty?)
+                robots_path = "robots.txt"                
+            else
+                robots_path = "#{droot}/robots.txt"
+            end
+            upload! io, File.join(release_path, "#{robots_path}")
+            execute :chmod, "644 #{release_path}/#{robots_path}"
+        end
+    end
+
+    desc "Sends a message to the Git Hipchat Room"
+    task :send_hipchat_message do
+        run_locally do        
+            set :hipchat_msg, "Sir!, Updated <a href=\"#{fetch(:stage_url)}\">#{fetch(:stage_url)}</a> environment with branch <a href=\"#{fetch(:repo_link)}/tree/#{fetch(:branch)}\">#{fetch(:branch)}</a> of <a href=\"#{fetch(:repo_link)}\">NewWaveWeb/#{fetch(:hipchat_app_name)}</a>"
+            execute "hipchat_room_message -r #{fetch(:hipchat_room)} -i '#{fetch(:hipchat_msg)}'"
+        end
+    end
+
+    desc "php.ini link"
+    task :php_ini_link do
+        on roles(:all) do |server|
+
+            droot = fetch(:document_root)
+            if (droot.nil? || droot.empty?)
+                path = "#{release_path}"
+            else
+                path = "#{release_path}/#{droot}"
+            end
+             execute :ln, '-s', "/home/#{server.user}/php/php.ini", "#{path}/php.ini"
+        end
+    end
+
+    desc "Backup gform link"
+    task :backup_gform_link do
+        on roles(:all) do
+
+            droot = fetch(:document_root)
+            if (droot.nil? || droot.empty?)
+                gform_path = "#{release_path}/backup_gform"
+            else
+                gform_path = "#{release_path}/#{droot}/backup_gform"
+            end
+             execute :ln, '-s', "#{shared_path}/backup_gform", "#{gform_path}"
+        end
+    end
+
+    desc "Backup leadgen link"
+    task :backup_leadgen_link do
+        on roles(:all) do
+
+            droot = fetch(:document_root)
+            if (droot.nil? || droot.empty?)
+                leadgen_path = "#{release_path}/leadgen"
+            else
+                leadgen_path = "#{release_path}/#{droot}/leadgen"
+            end
+             execute :ln, '-s', "#{shared_path}/leadgen", "#{leadgen_path}"
+        end
+    end
+
+    desc "Warn before doing deploy that this client does changes directly on live server over sftp"
+    task :warn_client_changes do
+        on roles(:all) do
+            puts <<-EOF
+
+************************** WARNING ******************************
+  The client for this project does changes directly on the
+  live server.
+
+  If the repository is not updated, you risk loosing all clients
+  changes.
+*****************************************************************
+
+            EOF
+            ask :answer, "Are you sure you want to continue?: (Type 'yes' to continue) "
+            if fetch(:answer) != 'yes'
+                puts "Deploy cancelled."
+                exit
+            end
+        end
+    end
+
+    task :bower_install do
+        on roles(:all) do
+            execute "cd #{release_path} && bower install"
+        end
+    end
+
+    task :npm_install do
+        on roles(:all) do
+            execute "cd #{release_path} && npm install"
+        end
+    end
+
+    task :grunt_build do
+        on roles(:all) do
+            execute "cd #{release_path} && grunt build"
+        end
+    end
+
+    task :grunt_devel do
+        on roles(:all) do
+            execute "cd #{release_path} && grunt devel"
+        end
+    end
+
+    task :node_modules_symlink do
+        on roles(:all) do
+            execute :ln, '-s', "#{shared_path}/node_modules", "#{release_path}/node_modules" 
+        end
+    end
+
+    task :bower_symlink do
+        on roles(:all) do
+            execute :ln, '-s', "#{shared_path}/bower_components", "#{release_path}/bower_components" 
+        end
+    end
+    
+end

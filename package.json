@@ -1,0 +1,20 @@
+{
+  "name": "cap-deploy-tool",
+  "version": "1.0.0",
+  "description": "Deploy websites with caphub and capistrano",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/liocuevas/deploy.git"
+  },
+  "author": "Lionel Cuevas <liocuevas@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/liocuevas/deploy/issues"
+  },
+  "homepage": "https://github.com/liocuevas/deploy",
+  "dependencies": {
+    "gitlab-webhook-deployer": "git+https://github.com/liocuevas/gitlab-webhook-deployer.git",
+    "webhook-deployer": "^0.6.5",
+    "bitbucket-webhook-deployer": "git+https://github.com/liocuevas/bitbucket-webhook-deployer.git"
+  }
+}

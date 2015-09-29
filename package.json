@@ -14,7 +14,7 @@
   "homepage": "https://github.com/liocuevas/deploy",
   "dependencies": {
     "gitlab-webhook-deployer": "git+https://github.com/liocuevas/gitlab-webhook-deployer.git",
-    "webhook-deployer": "^0.6.5",
+    "webhook-deployer": "git+https://github.com/liocuevas/webhook-deployer.git^0.6.5",
     "bitbucket-webhook-deployer": "git+https://github.com/liocuevas/bitbucket-webhook-deployer.git"
   }
 }
